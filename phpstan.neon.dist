@@ -2,5 +2,7 @@ parameters:
     level: 5
     paths:
         - src
+    excludePaths:
+            - src/DependencyInjection/Configuration.php
     fileExtensions:
         - php

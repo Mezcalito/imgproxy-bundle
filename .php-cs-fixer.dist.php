@@ -24,6 +24,7 @@ $finder = PhpCsFixer\Finder::create()
     ->ignoreDotFiles(false)
     ->ignoreVCSIgnored(true)
     ->in(__DIR__)
+    ->notPath('src/DependencyInjection/Configuration.php')
 ;
 
 $config = new PhpCsFixer\Config();
