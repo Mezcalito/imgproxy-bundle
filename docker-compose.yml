@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+    php:
+        build: docker/php/
+        working_dir: /srv/app
+        volumes:
+            - ./:/srv/app:rw,cached
+
+    imgproxy:
+      image: darthsim/imgproxy:latest
+      ports:
+        - "8080:8080"

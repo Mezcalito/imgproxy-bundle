@@ -1,0 +1,29 @@
+{
+    "name": "mezcalito/imgproxy-bundle",
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/Mezcalito/imgproxy-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mezcalito",
+            "email": "dev@mezcalito.fr",
+            "homepage": "https://www.mezcalito.fr/"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "symfony/framework-bundle": "^6.2",
+        "symfony/options-resolver": "^6.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.1",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.16"
+    },
+    "autoload": {
+        "psr-4": { "Mezcalito\\ImgproxyBundle\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Mezcalito\\ImgproxyBundle\\Tests\\": "tests" }
+    }
+}

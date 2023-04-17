@@ -1,0 +1,43 @@
+name: "Continuous Integration"
+
+on:
+  push:
+    branches:
+      - 0.x
+  pull_request:
+    branches:
+      - 0.x
+
+jobs:
+  tests:
+    name: "CI ${{ matrix.operating-system }} / PHP ${{ matrix.php-version }}"
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest', 'macos-latest']
+        php-version: ['8.2']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-version }}"
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+
+      - name: Test PHP-CS-Fixer
+        run: php vendor/bin/php-cs-fixer fix --dry-run --diff --no-ansi
+
+      - name: Test PHPStan
+        run: php vendor/bin/phpstan analyse
+
+      - name: Test PHPUnit
+        run: php vendor/bin/phpunit
