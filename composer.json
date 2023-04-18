@@ -24,6 +24,6 @@
         "psr-4": { "Mezcalito\\ImgproxyBundle\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Mezcalito\\ImgproxyBundle\\Tests\\": "tests" }
+        "psr-4": { "Mezcalito\\ImgproxyBundle\\Tests\\": "tests/" }
     }
 }
