@@ -13,20 +13,27 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class ImgproxyExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $config = $this->processConfiguration(new Configuration(), $configs);
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.php');
+
+        $configuration = $this->getConfiguration($configs, $container);
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->getDefinition('imgproxy.resolver')->replaceArgument(0, rtrim($config['host'], '/'));
+        $container->getDefinition('imgproxy.url.signer')
+            ->replaceArgument(0, $config['signature']['key'])
+            ->replaceArgument(1, $config['signature']['salt']);
 
         $presets = $this->createPresets($config['default_preset_settings'], $config['presets']);
-
-        $container->setParameter('imgproxy.host', $config['host']);
-        $container->setParameter('imgproxy.signature.key', $config['signature']['key']);
-        $container->setParameter('imgproxy.signature.salt', $config['signature']['salt']);
         $container->setParameter('imgproxy.presets', $presets);
     }
 

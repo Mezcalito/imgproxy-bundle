@@ -14,24 +14,19 @@ declare(strict_types=1);
 namespace Mezcalito\ImgproxyBundle\Tests\DependencyInjection;
 
 use Mezcalito\ImgproxyBundle\DependencyInjection\ImgproxyExtension;
+use Mezcalito\ImgproxyBundle\Resolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class ImgproxyExtensionTest extends TestCase
 {
     public function testDefaultPresetSettings(): void
     {
-        $container = $this->createContainer([
-            'host' => 'http://localhost:8080',
-            'signature' => ['key' => 'c27f2c1d', 'salt' => 'fa242e79'],
-            'default_preset_settings' => [
-                'format' => 'png',
-                'encode' => false,
-            ],
-            'presets' => [
-                'thumbnail' => [],
-            ],
-        ]);
+        $container = $this->createContainer();
+
+        $resolver = $container->get(Resolver::class);
+        $this->assertNotNull($resolver);
 
         $presets = $container->getParameter('imgproxy.presets');
         $this->assertCount(1, $presets);
@@ -43,12 +38,22 @@ class ImgproxyExtensionTest extends TestCase
         $this->assertArrayHasKey('resize', $preset);
     }
 
-    private function createContainer(array $data = []): ContainerBuilder
+    private function createContainer(): ContainerBuilder
     {
         $container = new ContainerBuilder();
 
         $extension = new ImgproxyExtension();
-        $extension->load([$data], $container);
+        $extension->load([[
+            'host' => 'http://localhost:8080',
+            'signature' => ['key' => 'c27f2c1d', 'salt' => 'fa242e79'],
+            'default_preset_settings' => [
+                'format' => 'png',
+                'encode' => false,
+            ],
+            'presets' => [
+                'thumbnail' => [],
+            ],
+        ]], $container);
 
         return $container;
     }
