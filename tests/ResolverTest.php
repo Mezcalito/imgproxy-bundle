@@ -91,12 +91,12 @@ class ResolverTest extends TestCase
             'presets' => [
                 'plain_thumbnail' => [
                     'format' => 'webp',
-                    'resize' => ['width' => 150, 'height' => 75],
+                    'resize' => ['width' => 150, 'height' => 75, 'enlarge' => true],
                 ],
                 'encoded_thumbnail' => [
                     'format' => 'webp',
                     'encode' => true,
-                    'resize' => ['width' => 150, 'height' => 75],
+                    'resize' => ['width' => 150, 'height' => 75, 'enlarge' => true],
                 ],
             ],
         ]], $container);
