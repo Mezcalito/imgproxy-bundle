@@ -28,19 +28,20 @@ class ImgproxyExtension extends Extension
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->getDefinition('imgproxy.resolver')->replaceArgument(0, rtrim($config['host'], '/'));
+        $presets = $this->createPresets($config['default_preset_settings'], $config['presets']);
+        $container->setParameter('imgproxy.presets', $presets);
+
+        $container->getDefinition('imgproxy.resolver')
+            ->replaceArgument(0, \rtrim($config['host'], '/'))
+            ->replaceArgument(1, $presets);
+
         $container->getDefinition('imgproxy.url.signer')
             ->replaceArgument(0, $config['signature']['key'])
             ->replaceArgument(1, $config['signature']['salt']);
-
-        $presets = $this->createPresets($config['default_preset_settings'], $config['presets']);
-        $container->setParameter('imgproxy.presets', $presets);
     }
 
     private function createPresets(array $defaultPreset, array $presets): array
     {
-        return \array_map(function (array $presets) use ($defaultPreset) {
-            return \array_replace_recursive($presets, $defaultPreset);
-        }, $presets);
+        return \array_map(fn (array $presets) => \array_merge($defaultPreset, \array_filter($presets)), $presets);
     }
 }

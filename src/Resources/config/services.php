@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Mezcalito ImgproxyBundle.
+ *
+ * (c) Mezcalito <dev@mezcalito.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Mezcalito\ImgproxyBundle\Resolver;
@@ -9,7 +20,12 @@ use Mezcalito\ImgproxyBundle\Url\Signer;
 return static function (ContainerConfigurator $container) {
     $container->services()
         ->set('imgproxy.resolver', Resolver::class)
-            ->args([abstract_arg('imgproxy host'), service('imgproxy.url.signer'), service('imgproxy.url.encoder')])
+            ->args([
+                abstract_arg('imgproxy host'),
+                abstract_arg('imgproxy presets'),
+                service('imgproxy.url.signer'),
+                service('imgproxy.url.encoder'),
+            ])
         ->alias(Resolver::class, 'imgproxy.resolver')
 
         ->set('imgproxy.url.signer', Signer::class)

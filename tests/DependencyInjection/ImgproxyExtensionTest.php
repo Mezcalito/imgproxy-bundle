@@ -17,7 +17,6 @@ use Mezcalito\ImgproxyBundle\DependencyInjection\ImgproxyExtension;
 use Mezcalito\ImgproxyBundle\Resolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class ImgproxyExtensionTest extends TestCase
 {
@@ -33,7 +32,7 @@ class ImgproxyExtensionTest extends TestCase
         $this->assertArrayHasKey('thumbnail', $presets);
 
         $preset = \array_shift($presets);
-        $this->assertEquals('png', $preset['format']);
+        $this->assertEquals('webp', $preset['format']);
         $this->assertFalse($preset['encode']);
         $this->assertArrayHasKey('resize', $preset);
     }
@@ -51,7 +50,10 @@ class ImgproxyExtensionTest extends TestCase
                 'encode' => false,
             ],
             'presets' => [
-                'thumbnail' => [],
+                'thumbnail' => [
+                    'format' => 'webp',
+                    'resize' => ['width' => 150, 'height' => 75],
+                ],
             ],
         ]], $container);
 
