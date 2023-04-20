@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle;
 
+use Mezcalito\ImgproxyBundle\Option\Resize;
 use Mezcalito\ImgproxyBundle\Url\Encoder;
 use Mezcalito\ImgproxyBundle\Url\Signer;
 
@@ -33,25 +34,7 @@ readonly class Resolver
         }
 
         $preset = $this->presets[$presetName];
-
-        $options = \sprintf('resize:%s:%s:%s:%s',
-            $preset['resize']['resizing_type'],
-            $preset['resize']['width'],
-            $preset['resize']['height'],
-            $preset['resize']['enlarge'],
-        );
-
-        if (!empty($preset['resize']['extend'])) {
-            $options .= \sprintf(':%s', $preset['resize']['extend']['extend']);
-
-            if (!empty($preset['resize']['extend']['gravity'])) {
-                $options .= \sprintf(':%s:%s:%s',
-                    $preset['resize']['extend']['gravity']['type'],
-                    $preset['resize']['extend']['gravity']['x_offset'],
-                    $preset['resize']['extend']['gravity']['y_offset']
-                );
-            }
-        }
+        $options = (new Resize($preset['resize']))->resolve();
 
         $separator = '@';
         $source = \str_replace('@', '%40', 'plain/'.$src);

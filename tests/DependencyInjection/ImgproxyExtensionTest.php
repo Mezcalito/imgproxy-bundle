@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Mezcalito\ImgproxyBundle\Tests\DependencyInjection;
 
 use Mezcalito\ImgproxyBundle\DependencyInjection\ImgproxyExtension;
+use Mezcalito\ImgproxyBundle\ImgproxyBundle;
 use Mezcalito\ImgproxyBundle\Resolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,9 +23,18 @@ class ImgproxyExtensionTest extends TestCase
 {
     public function testDefaultPresetSettings(): void
     {
-        $container = $this->createContainer();
+        $container = $this->getContainer([
+            'presets' => [
+                'thumbnail' => [
+                    'format' => 'webp',
+                    'resize' => ['width' => 150, 'height' => 75],
+                ],
+            ],
+        ]);
+        $container->compile();
 
-        $resolver = $container->get(Resolver::class);
+        /** @var ?Resolver $resolver */
+        $resolver = $container->get('imgproxy.resolver');
         $this->assertNotNull($resolver);
 
         $presets = $container->getParameter('imgproxy.presets');
@@ -33,29 +43,24 @@ class ImgproxyExtensionTest extends TestCase
 
         $preset = \array_shift($presets);
         $this->assertEquals('webp', $preset['format']);
-        $this->assertFalse($preset['encode']);
+        $this->assertTrue($preset['encode']);
         $this->assertArrayHasKey('resize', $preset);
     }
 
-    private function createContainer(): ContainerBuilder
+    private function getContainer(array $data = []): ContainerBuilder
     {
         $container = new ContainerBuilder();
 
+        $bundle = new ImgproxyBundle();
+        $bundle->build($container);
+
         $extension = new ImgproxyExtension();
-        $extension->load([[
+        $extension->load(['imgproxy' => \array_merge([
             'host' => 'http://localhost:8080',
             'signature' => ['key' => 'c27f2c1d', 'salt' => 'fa242e79'],
-            'default_preset_settings' => [
-                'format' => 'png',
-                'encode' => false,
-            ],
-            'presets' => [
-                'thumbnail' => [
-                    'format' => 'webp',
-                    'resize' => ['width' => 150, 'height' => 75],
-                ],
-            ],
-        ]], $container);
+        ], $data)], $container);
+
+        $container->getDefinition('imgproxy.resolver')->setPublic(true);
 
         return $container;
     }

@@ -52,7 +52,7 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                     ->integerNode('width')->defaultValue(0)->min(0)->end()
                                     ->integerNode('height')->defaultValue(0)->min(0)->end()
-                                    ->booleanNode('enlarge')->defaultFalse()->end()
+                                    ->booleanNode('enlarge')->end()
                                     ->arrayNode('extend')
                                         ->children()
                                             ->booleanNode('extend')->defaultFalse()->end()
