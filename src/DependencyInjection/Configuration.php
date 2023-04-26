@@ -19,6 +19,7 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()
+                ->scalarNode('media_url')->end()
                 ->arrayNode('signature')
                     ->children()
                         ->scalarNode('key')

@@ -39,6 +39,7 @@ To use this bundle, create the following file:
 
 imgproxy:
     host: localhost
+    media_url: https://media.localhost
 
     # set the same key and salt in imgproxy environment (https://docs.imgproxy.net/signing_the_url)
     signature:

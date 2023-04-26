@@ -16,14 +16,17 @@ namespace Mezcalito\ImgproxyBundle;
 use Mezcalito\ImgproxyBundle\Option\Resize;
 use Mezcalito\ImgproxyBundle\Url\Encoder;
 use Mezcalito\ImgproxyBundle\Url\Signer;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 readonly class Resolver
 {
     public function __construct(
         private string $host,
+        private ?string $mediaUrl,
         private array $presets,
         private Signer $signer,
         private Encoder $encoder,
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -31,6 +34,16 @@ readonly class Resolver
     {
         if (!\array_key_exists($presetName, $this->presets)) {
             throw new \InvalidArgumentException(\sprintf('Unknown preset "%s"', $presetName));
+        }
+
+        if (!\filter_var($src, \FILTER_VALIDATE_URL)) {
+            if (null !== $this->mediaUrl) {
+                $src = $this->mediaUrl.'/'.$src;
+            } elseif ($request = $this->requestStack->getCurrentRequest()) {
+                $src = $request->getHost().$src;
+            } else {
+                throw new \LogicException('No base URL');
+            }
         }
 
         $preset = $this->presets[$presetName];

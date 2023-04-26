@@ -18,30 +18,58 @@ use Mezcalito\ImgproxyBundle\Resolver;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ResolverTest extends TestCase
 {
     private Resolver $resolver;
 
-    protected function setUp(): void
-    {
-        $this->resolver = $this->createContainer()->get(Resolver::class);
-    }
-
     #[DataProvider('plainUrl')]
     public function testCreatePlainUrl(string $src, string $filter, string $result): void
     {
+        $this->addingContainer();
+
         $this->assertEquals($result, $this->resolver->getBrowserPath($src, $filter));
     }
 
     #[DataProvider('encodedUrl')]
     public function testCreateEncodedUrl(string $src, string $filter, string $result): void
     {
+        $this->addingContainer();
+
+        $this->assertEquals($result, $this->resolver->getBrowserPath($src, $filter));
+    }
+
+    #[DataProvider('localUrlWithoutMediaUrl')]
+    public function testCreateLocalUrlWithoutMediaUrl(string $src, string $filter, string $result): void
+    {
+        $this->addingContainer();
+
+        $this->assertEquals($result, $this->resolver->getBrowserPath($src, $filter));
+    }
+
+    #[DataProvider('localUrlWithoutMediaUrl')]
+    public function testCreateLocalUrlWithoutMediaUrlAndRequest(string $src, string $filter, string $result): void
+    {
+        $this->addingContainer(false, false);
+
+        $this->expectException(\LogicException::class);
+        $this->resolver->getBrowserPath($src, $filter);
+    }
+
+    #[DataProvider('localUrlWithMediaUrl')]
+    public function testCreateLocalUrlWithMediaUrl(string $src, string $filter, string $result): void
+    {
+        $this->addingContainer(true);
+
         $this->assertEquals($result, $this->resolver->getBrowserPath($src, $filter));
     }
 
     public function testWrongPresetName(): void
     {
+        $this->addingContainer();
+
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown preset "test"');
 
@@ -76,12 +104,41 @@ class ResolverTest extends TestCase
         ];
     }
 
-    private function createContainer(): ContainerBuilder
+    public static function localUrlWithoutMediaUrl(): iterable
+    {
+        yield [
+            'src' => 'image.png',
+            'filter' => 'encoded_thumbnail',
+            'result' => 'http://localhost:8080/efA8fwEDYoRdy5YUDLDuht7TRiaVVLxW8CMWzvTd2uo/resize:fit:150:75:true/bG9jYWxob3N0aW1h/Z2UucG5n.webp',
+        ];
+    }
+
+    public static function localUrlWithMediaUrl(): iterable
+    {
+        yield [
+            'src' => 'image.png',
+            'filter' => 'encoded_thumbnail',
+            'result' => 'http://localhost:8080/r22LpKz7LG_mplSJZApPsoOyH1OO_xFEVobHcfV3tDY/resize:fit:150:75:true/aHR0cDovL2V4YW1w/bGUubG9jYWwvaW1h/Z2UucG5n.webp',
+        ];
+    }
+
+    private function addingContainer(bool $withMediaUrl = false, bool $withRequest = true): void
+    {
+        $container = $this->createContainer($withMediaUrl);
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestStack->expects($this->atMost(1))
+            ->method('getCurrentRequest')->willReturn($withRequest ? Request::create('http//localhost') : null);
+        $container->set('request_stack', $requestStack);
+        $this->resolver = $container->get(Resolver::class);
+    }
+
+    private function createContainer(bool $withMediaUrl = false): ContainerBuilder
     {
         $container = new ContainerBuilder();
 
         $extension = new ImgproxyExtension();
-        $extension->load([[
+
+        $options = [
             'host' => 'http://localhost:8080',
             'signature' => ['key' => 'c27f2c1d', 'salt' => 'fa242e79'],
             'default_preset_settings' => [
@@ -99,7 +156,13 @@ class ResolverTest extends TestCase
                     'resize' => ['width' => 150, 'height' => 75, 'enlarge' => true],
                 ],
             ],
-        ]], $container);
+        ];
+
+        if ($withMediaUrl) {
+            $options['media_url'] = 'http://example.local';
+        }
+
+        $extension->load([$options], $container);
 
         return $container;
     }

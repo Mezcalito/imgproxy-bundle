@@ -18,6 +18,7 @@ use Mezcalito\ImgproxyBundle\ImgproxyBundle;
 use Mezcalito\ImgproxyBundle\Resolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ImgproxyExtensionTest extends TestCase
 {
@@ -50,6 +51,7 @@ class ImgproxyExtensionTest extends TestCase
     private function getContainer(array $data = []): ContainerBuilder
     {
         $container = new ContainerBuilder();
+        $container->set('request_stack', $this->createMock(RequestStack::class));
 
         $bundle = new ImgproxyBundle();
         $bundle->build($container);

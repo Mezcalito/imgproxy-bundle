@@ -22,9 +22,11 @@ return static function (ContainerConfigurator $container) {
         ->set('imgproxy.resolver', Resolver::class)
             ->args([
                 abstract_arg('imgproxy host'),
+                abstract_arg('imgproxy media url'),
                 abstract_arg('imgproxy presets'),
                 service('imgproxy.url.signer'),
                 service('imgproxy.url.encoder'),
+                service('request_stack')
             ])
         ->alias(Resolver::class, 'imgproxy.resolver')
 

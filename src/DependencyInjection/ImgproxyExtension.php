@@ -33,7 +33,8 @@ class ImgproxyExtension extends Extension
 
         $container->getDefinition('imgproxy.resolver')
             ->replaceArgument(0, \rtrim($config['host'], '/'))
-            ->replaceArgument(1, $presets);
+            ->replaceArgument(1, isset($config['media_url']) ? \rtrim($config['media_url'], '/') : null)
+            ->replaceArgument(2, $presets);
 
         $container->getDefinition('imgproxy.url.signer')
             ->replaceArgument(0, $config['signature']['key'])
