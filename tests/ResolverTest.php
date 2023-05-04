@@ -81,12 +81,12 @@ class ResolverTest extends TestCase
         yield [
             'src' => 'https://fakeimg.pl/350x200/?text=Mezcalito',
             'filter' => 'plain_thumbnail',
-            'result' => 'http://localhost:8080/MB8RT35YK91aiLS1hNXW3QpNCMS4ukBJyz0gIOsZAYI/resize:fit:150:75:true/plain/https://fakeimg.pl/350x200/?text=Mezcalito@webp',
+            'result' => 'http://localhost:8080/TDJ-oIkX2tt1rOrm1Dg0Gc3SQTyssH2GlSlpd7yRdyQ/resize:fit:150:75:true/plain/https://fakeimg.pl/350x200/%3ftext%3dMezcalito@webp',
         ];
         yield [
             'src' => 'https://fakeimg.pl/350x200/?text=Mezc@lito',
             'filter' => 'plain_thumbnail',
-            'result' => 'http://localhost:8080/mBT7dYek5ZP36f0FAuJB4P1hvqBFed_FC2dUngL-fO4/resize:fit:150:75:true/plain/https://fakeimg.pl/350x200/?text=Mezc%40lito@webp',
+            'result' => 'http://localhost:8080/fg6cpJsbzKNT8i4aD8BvMW3qp9wR5sGft5I_pnYEY5Q/resize:fit:150:75:true/plain/https://fakeimg.pl/350x200/%3ftext%3dMezc%40lito@webp',
         ];
     }
 
@@ -95,12 +95,12 @@ class ResolverTest extends TestCase
         yield [
             'src' => 'https://fakeimg.pl/350x200/?text=Mezcalito',
             'filter' => 'encoded_thumbnail',
-            'result' => 'http://localhost:8080/4fX6MWmCU4MyKScMDtlnUWWoPyfOgWHQ2qCybEyGfPw/resize:fit:150:75:true/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y2FsaXRv.webp',
+            'result' => 'http://localhost:8080/M07njO9anpwx6bzNwRFMB8PtFueihjOXLSPkKAM24Ws/resize:fit:150:75:true/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y2FsaXRv.webp',
         ];
         yield [
             'src' => 'https://fakeimg.pl/350x200/?text=Mezc@lito',
             'filter' => 'encoded_thumbnail',
-            'result' => 'http://localhost:8080/KX0fg5LdXQZXlycY6gXWiJ1hKOdoXYr53LkuRJswDAQ/resize:fit:150:75:true/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y0BsaXRv.webp',
+            'result' => 'http://localhost:8080/CL5ZGbQNQifd578YgmwuqDKXRMLUSwb3koxbA3haDBY/resize:fit:150:75:true/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y0BsaXRv.webp',
         ];
     }
 
@@ -109,7 +109,7 @@ class ResolverTest extends TestCase
         yield [
             'src' => 'image.png',
             'filter' => 'encoded_thumbnail',
-            'result' => 'http://localhost:8080/efA8fwEDYoRdy5YUDLDuht7TRiaVVLxW8CMWzvTd2uo/resize:fit:150:75:true/bG9jYWxob3N0aW1h/Z2UucG5n.webp',
+            'result' => 'http://localhost:8080/lMLZOGlFYsEhLVAJm0nPio0MD45sz82VdSQMXGccz10/resize:fit:150:75:true/bG9jYWxob3N0aW1h/Z2UucG5n.webp',
         ];
     }
 
@@ -118,7 +118,7 @@ class ResolverTest extends TestCase
         yield [
             'src' => 'image.png',
             'filter' => 'encoded_thumbnail',
-            'result' => 'http://localhost:8080/r22LpKz7LG_mplSJZApPsoOyH1OO_xFEVobHcfV3tDY/resize:fit:150:75:true/aHR0cDovL2V4YW1w/bGUubG9jYWwvaW1h/Z2UucG5n.webp',
+            'result' => 'http://localhost:8080/zN5oEmKZwoANq9p-4m4mP2YUe5tq9ADkbkzp_-N96ng/resize:fit:150:75:true/aHR0cDovL2V4YW1w/bGUubG9jYWwvaW1h/Z2UucG5n.webp',
         ];
     }
 

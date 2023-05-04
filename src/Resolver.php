@@ -50,15 +50,15 @@ readonly class Resolver
         $options = (new Resize($preset['resize']))->resolve();
 
         $separator = '@';
-        $source = \str_replace('@', '%40', 'plain/'.$src);
+        $source = \str_replace(['&', '=', '?', '@'], ['%26', '%3d', '%3f', '%40'], 'plain/'.$src);
         if ($preset['encode']) {
             $separator = '.';
             $source = Encoder::encode($src, true);
         }
 
-        $path = $options.'/'.$source.$separator.$preset['format'];
+        $path = '/'.$options.'/'.$source.$separator.$preset['format'];
         $signature = $this->signer->generateSignature($path);
 
-        return $this->host.'/'.$signature.'/'.$path;
+        return $this->host.'/'.$signature.$path;
     }
 }
