@@ -37,9 +37,10 @@ readonly class Resolver
 
         if (!\filter_var($src, \FILTER_VALIDATE_URL)) {
             if (null !== $this->mediaUrl) {
-                $src = $this->mediaUrl.'/'.$src;
+                $src = $this->mediaUrl.'/'.\ltrim($src, '/');
             } elseif ($request = $this->requestStack->getCurrentRequest()) {
-                $src = $request->getHost().$src;
+                $host = \rtrim($request->getHost(), '/');
+                $src = $host.\ltrim($src, '/');
             } else {
                 throw new \LogicException('No base URL');
             }
