@@ -11,3 +11,6 @@ services:
       image: darthsim/imgproxy:latest
       ports:
         - "8080:8080"
+      environment:
+        IMGPROXY_KEY: "c27f2c1d"
+        IMGPROXY_SALT: "fa242e79"
