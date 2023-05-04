@@ -30,20 +30,20 @@ class SignerTest extends TestCase
     public static function path(): iterable
     {
         yield [
-            'path' => 'resize:fit:848:565:1/https://fakeimg.pl/350x200/?text=Mezcalito@webp',
-            'result' => \pack('H*', '554526608022262df50d9913d3d4c4e590b2ade8fba09de4ff89c5067129c057'),
+            'path' => '/resize:fit:150:75:1/https://fakeimg.pl/350x200/?text=Mezcalito@webp',
+            'result' => 'dFsNT9cy24vWWyIdVAqxRVVsGHDYGk-MdMmBSPzDK64',
         ];
         yield [
-            'path' => 'resize:fit:848:565:1/https://fakeimg.pl/350x200/?text=Mezc%40lito@webp',
-            'result' => \pack('H*', 'c18193198acbc9d467056514f2ba05ef59caffd42927d79ae6a9a80f1d8d88e7'),
+            'path' => '/resize:fit:150:75:1/https://fakeimg.pl/350x200/?text=Mezc%40lito@webp',
+            'result' => '3hikkYgQ2knT9lRlilkHMevcYF4drvWmoFSBYpGtDVU',
         ];
         yield [
-            'path' => 'resize:fit:848:565:1/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y2FsaXRv.webp',
-            'result' => \pack('H*', '3a13480006206259e2b179c6edaa4497d2c5b07b4d08f1983ab0028ed25a7646'),
+            'path' => '/resize:fit:150:75:1/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y2FsaXRv.webp',
+            'result' => 'nXZqRoPwmxLFO8YcKth6EbDDnWDYPLGKFN07m2JtOcg',
         ];
         yield [
-            'path' => 'resize:fit:848:565:1/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y0BsaXRv.webp',
-            'result' => \pack('H*', '20a892d8ee2c20782f3acddc129046162f1787d3d7d6daff532dd516c53ec081'),
+            'path' => '/resize:fit:150:75:1/aHR0cHM6Ly9mYWtl/aW1nLnBsLzM1MHgy/MDAvP3RleHQ9TWV6/Y0BsaXRv.webp',
+            'result' => 'r_AQMj4BBLZATF4kZipFK9UDMfXe-CZCYl7pIpHlLHA',
         ];
     }
 }

@@ -25,7 +25,6 @@ readonly class Resolver
         private ?string $mediaUrl,
         private array $presets,
         private Signer $signer,
-        private Encoder $encoder,
         private RequestStack $requestStack,
     ) {
     }
@@ -53,11 +52,11 @@ readonly class Resolver
         $source = \str_replace('@', '%40', 'plain/'.$src);
         if ($preset['encode']) {
             $separator = '.';
-            $source = $this->encoder->encode($src, true);
+            $source = Encoder::encode($src, true);
         }
 
         $path = $options.'/'.$source.$separator.$preset['format'];
-        $signature = $this->encoder->encode($this->signer->generateSignature($path));
+        $signature = $this->signer->generateSignature($path);
 
         return $this->host.'/'.$signature.'/'.$path;
     }

@@ -17,7 +17,7 @@ class Encoder
 {
     private const SPLIT_SIZE = 16;
 
-    public function encode(string $raw, bool $split = false): string
+    public static function encode(string $raw, bool $split = false): string
     {
         $result = \rtrim(\strtr(\base64_encode($raw), '+/', '-_'), '=');
 

@@ -26,6 +26,6 @@ readonly class Signer
 
     public function generateSignature(string $path): string
     {
-        return \hash_hmac('sha256', $this->salt.$path, $this->key, true);
+        return Encoder::encode(\hash_hmac('sha256', $this->salt.$path, $this->key, true));
     }
 }
