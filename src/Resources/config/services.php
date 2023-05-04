@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Mezcalito\ImgproxyBundle\Resolver;
-use Mezcalito\ImgproxyBundle\Url\Encoder;
+use Mezcalito\ImgproxyBundle\Twig\PresetExtension;
 use Mezcalito\ImgproxyBundle\Url\Signer;
 
 return static function (ContainerConfigurator $container) {
@@ -25,7 +25,6 @@ return static function (ContainerConfigurator $container) {
                 abstract_arg('imgproxy media url'),
                 abstract_arg('imgproxy presets'),
                 service('imgproxy.url.signer'),
-                service('imgproxy.url.encoder'),
                 service('request_stack')
             ])
         ->alias(Resolver::class, 'imgproxy.resolver')
@@ -34,7 +33,10 @@ return static function (ContainerConfigurator $container) {
             ->args([abstract_arg('Signature key'), abstract_arg('Signature salt')])
         ->alias(Signer::class, 'imgproxy.url.signer')
 
-        ->set('imgproxy.url.encoder', Encoder::class)
-        ->alias(Encoder::class, 'imgproxy.url.encoder')
+        ->set('imgproxy.twig_preset_extension', PresetExtension::class)
+        ->tag('twig.extension')
+        ->args([
+            service('imgproxy.resolver'),
+        ])
     ;
 };

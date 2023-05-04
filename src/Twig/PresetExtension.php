@@ -13,20 +13,26 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Twig;
 
+use Mezcalito\ImgproxyBundle\Resolver;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class PresetExtension extends AbstractExtension
 {
+    public function __construct(
+        private readonly Resolver $resolver,
+    ) {
+    }
+
     public function getFilters(): array
     {
         return [
-            new TwigFilter('imgproxy_preset', [PresetRuntime::class, 'preset']),
+            new TwigFilter('imgproxy_preset', [$this, 'preset']),
         ];
     }
 
-    public function getName(): string
+    public function preset(string $path, string $preset): string
     {
-        return 'imgproxy_preset';
+        return $this->resolver->getBrowserPath($path, $preset);
     }
 }
