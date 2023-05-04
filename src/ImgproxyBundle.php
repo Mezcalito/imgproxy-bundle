@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ImgproxyBundle extends AbstractBundle
+class ImgproxyBundle extends Bundle
 {
 }
