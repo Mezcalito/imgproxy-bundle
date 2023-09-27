@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.4
 
-FROM php:8.2-cli-alpine
+FROM php:8.1-cli-alpine
 
 COPY --from=mlocati/php-extension-installer --link /usr/bin/install-php-extensions /usr/local/bin/
 COPY --from=composer/composer:2-bin --link /composer /usr/bin/composer

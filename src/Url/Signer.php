@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Url;
 
-readonly class Signer
+class Signer
 {
-    private string $key;
-    private string $salt;
+    private readonly string $key;
+    private readonly string $salt;
 
     public function __construct(string $key, string $salt)
     {

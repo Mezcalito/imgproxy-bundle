@@ -18,14 +18,14 @@ use Mezcalito\ImgproxyBundle\Url\Encoder;
 use Mezcalito\ImgproxyBundle\Url\Signer;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-readonly class Resolver
+class Resolver
 {
     public function __construct(
-        private string $host,
-        private ?string $mediaUrl,
-        private array $presets,
-        private Signer $signer,
-        private RequestStack $requestStack,
+        private readonly string $host,
+        private readonly ?string $mediaUrl,
+        private readonly array $presets,
+        private readonly Signer $signer,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
