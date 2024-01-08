@@ -9,35 +9,106 @@ on:
       - 0.x
 
 jobs:
-  tests:
-    name: "CI ${{ matrix.operating-system }} / PHP ${{ matrix.php-version }}"
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: ['ubuntu-latest', 'macos-latest']
-        php-version: ['8.1', '8.2']
+  php-cs-fixer:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
+      - uses: actions/checkout@v4
 
-      - name: Install PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "${{ matrix.php-version }}"
+          php-version: 8.3
+          coverage: none
 
       - name: Install dependencies
-        uses: ramsey/composer-install@v2
+        run: |
+          composer install
+
+      - name: PHP-CS-Fixer
+        run: |
+          vendor/bin/php-cs-fixer fix --dry-run --diff --no-ansi
+
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          dependency-versions: ${{ matrix.dependencies }}
+          php-version: 8.3
+          coverage: none
 
-      - name: Test PHP-CS-Fixer
-        run: php vendor/bin/php-cs-fixer fix --dry-run --diff --no-ansi
+      - name: Install dependencies
+        run: |
+          composer install
 
-      - name: Test PHPStan
-        run: php vendor/bin/phpstan analyse
+      - name: PHPStan
+        run: |
+          vendor/bin/phpstan analyse
+
+  phpunit:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Latest Symfony version support
+          - os: ubuntu-latest
+            php_version: "8.3"
+            symfony_version: "7.0"
+            stability: "stable"
+          # LTS Symfony version support
+          - os: ubuntu-latest
+            php_version: "8.1"
+            symfony_version: "5.4"
+            stability: "stable"
+          - os: ubuntu-latest
+            php_version: "8.1"
+            symfony_version: "6.4"
+            stability: "stable"
+          # Lowest deps support
+          - os: ubuntu-latest
+            php_version: "8.1"
+            symfony_version: "5.4"
+            composer_args: "--prefer-lowest"
+            stability: "stable"
+          # Upcoming Symfony versions
+          - os: ubuntu-latest
+            php_version: "8.2"
+            symfony_version: "7.1.x-dev"
+            stability: "dev"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          coverage: none
+
+      - name: symfony/flex is required to install the correct symfony version
+        if: ${{ matrix.symfony_version }}
+        run: |
+          composer global config --no-plugins allow-plugins.symfony/flex true
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
+
+      - name: Configure Composer stability
+        run: |
+          composer config minimum-stability ${{ matrix.stability }}
+
+      - name: Configure Symfony version for symfony/flex
+        if: ${{ matrix.symfony_version }}
+        run: composer config extra.symfony.require "${{ matrix.symfony_version }}"
+
+      - name: Install dependencies
+        run: |
+          composer update --prefer-dist --no-progress ${{ matrix.composer_args }}
 
       - name: Test PHPUnit
-        run: php vendor/bin/phpunit
+        run: |
+          vendor/bin/phpunit
