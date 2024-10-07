@@ -1,5 +1,5 @@
 {
-    "name": "locservice/imgproxy-bundle",
+    "name": "mezcalito/imgproxy-bundle",
     "type": "symfony-bundle",
     "homepage": "https://github.com/Mezcalito/imgproxy-bundle",
     "license": "MIT",
