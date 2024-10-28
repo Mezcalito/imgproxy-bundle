@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
-use Mezcalito\ImgproxyBundle\Option\Resize;
 use Mezcalito\ImgproxyBundle\Option\Rotate;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
