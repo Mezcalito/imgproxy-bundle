@@ -19,23 +19,23 @@ class Resize extends Option
     {
         $parts = [];
 
-        if (!empty($this->params['resizing_type'])) {
+        if (\array_key_exists('resizing_type', $this->params)) {
             $parts = \array_merge($parts, (new ResizingType(['resizing_type' => $this->params['resizing_type']]))->getParts());
         }
 
-        if (!empty($this->params['width'])) {
+        if (\array_key_exists('width', $this->params)) {
             $parts = \array_merge($parts, (new Width(['width' => $this->params['width']]))->getParts());
         }
 
-        if (!empty($this->params['height'])) {
+        if (\array_key_exists('height', $this->params)) {
             $parts = \array_merge($parts, (new Height(['height' => $this->params['height']]))->getParts());
         }
 
-        if (!empty($this->params['enlarge'])) {
+        if (\array_key_exists('enlarge', $this->params)) {
             $parts = \array_merge($parts, (new Enlarge(['enlarge' => $this->params['enlarge']]))->getParts());
         }
 
-        if (!empty($this->params['extend'])) {
+        if (\array_key_exists('extend', $this->params)) {
             $parts = \array_merge($parts, (new Extend($this->params['extend']))->getParts());
         }
 

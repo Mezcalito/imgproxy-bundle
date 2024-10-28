@@ -43,6 +43,22 @@ class ResizeTest extends TestCase
         yield [
             'params' => [
                 'resizing_type' => 'fit',
+                'width' => 0,
+                'height' => 75,
+            ],
+            'result' => 'resize:fit:0:75',
+        ];
+        yield [
+            'params' => [
+                'resizing_type' => 'fit',
+                'width' => 150,
+                'height' => 0,
+            ],
+            'result' => 'resize:fit:150:0',
+        ];
+        yield [
+            'params' => [
+                'resizing_type' => 'fit',
                 'width' => 150,
                 'height' => 75,
                 'enlarge' => true,

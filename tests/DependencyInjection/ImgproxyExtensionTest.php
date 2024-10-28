@@ -28,7 +28,9 @@ class ImgproxyExtensionTest extends TestCase
             'presets' => [
                 'thumbnail' => [
                     'format' => 'webp',
-                    'resize' => ['width' => 150, 'height' => 75],
+                    'options' => [
+                        'resize' => ['width' => 150, 'height' => 75],
+                    ],
                 ],
             ],
         ]);
@@ -45,7 +47,9 @@ class ImgproxyExtensionTest extends TestCase
         $preset = \array_shift($presets);
         $this->assertEquals('webp', $preset['format']);
         $this->assertTrue($preset['encode']);
-        $this->assertArrayHasKey('resize', $preset);
+        $this->assertArrayHasKey('options', $preset);
+        $options = $preset['options'];
+        $this->assertArrayHasKey('resize', $options);
     }
 
     private function getContainer(array $data = []): ContainerBuilder

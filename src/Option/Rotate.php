@@ -13,15 +13,14 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
-class Extend extends Option
+class Rotate extends Option
 {
     public function getParts(): array
     {
-        $parts = [$this->params['extend'] ? 'true' : 'false'];
+        $parts = [];
 
-        if (\array_key_exists('gravity', $this->params)) {
-            $gravity = new Gravity($this->params['gravity']);
-            $parts = \array_merge($parts, $gravity->getParts());
+        if (\array_key_exists('angle', $this->params)) {
+            $parts['angle'] = $this->params['angle'];
         }
 
         return $parts;
