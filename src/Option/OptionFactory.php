@@ -19,7 +19,7 @@ final class OptionFactory
 {
     public static function fromName(string $optionName, array $optionParams): OptionInterface
     {
-        $fqcn = '\\Mezcalito\\ImgproxyBundle\\Option\\' . mb_ucfirst(mb_strtolower($optionName));
+        $fqcn = '\\Mezcalito\\ImgproxyBundle\\Option\\' . u($optionName)->camel()->title()->toString();
 
         return new $fqcn($optionParams);
     }
