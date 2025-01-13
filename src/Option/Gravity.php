@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 class Gravity extends Option
 {
     public function getParts(): array
@@ -20,7 +23,21 @@ class Gravity extends Option
         return [
             $this->params['type'],
             $this->params['x_offset'],
-            $this->params['x_offset'],
+            $this->params['y_offset'],
         ];
+    }
+
+    public static function getConfig(): NodeDefinition
+    {
+        $root = new NodeBuilder();
+
+        return $root
+            ->arrayNode('gravity')
+                ->children()
+                    ->enumNode('resizing_type')->values(['no', 'so', 'ea', 'we', 'noea', 'nowe', 'soea', 'sowe', 'ce'])->end()
+                    ->floatNode('x_offset')->min(0)->end()
+                    ->floatNode('y_offset')->min(0)->end()
+                ->end()
+            ->end();
     }
 }

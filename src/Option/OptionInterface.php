@@ -13,9 +13,13 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 interface OptionInterface
 {
     public function getName(): string;
+
+    public static function getConfig(): NodeDefinition;
 
     public function resolve(): string;
 }

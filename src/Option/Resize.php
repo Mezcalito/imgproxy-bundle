@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 class Resize extends Option
 {
     public function getParts(): array
@@ -40,5 +43,13 @@ class Resize extends Option
         }
 
         return $parts;
+    }
+
+    public static function getConfig(): NodeDefinition
+    {
+        $root = new NodeBuilder();
+
+        // TODO: manage meta options
+        return $root->end();
     }
 }

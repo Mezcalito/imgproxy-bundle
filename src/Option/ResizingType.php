@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 class ResizingType extends Option
 {
     public function getParts(): array
@@ -20,5 +23,13 @@ class ResizingType extends Option
         return [
             $this->params['resizing_type'],
         ];
+    }
+
+    public static function getConfig(): NodeDefinition
+    {
+        $root = new NodeBuilder();
+
+        return $root
+            ->enumNode('resizing_type')->values(['fit', 'fill', 'fill-down', 'force', 'auto']);
     }
 }

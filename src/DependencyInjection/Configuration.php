@@ -2,6 +2,12 @@
 
 namespace Mezcalito\ImgproxyBundle\DependencyInjection;
 
+use Mezcalito\ImgproxyBundle\Option\Enlarge;
+use Mezcalito\ImgproxyBundle\Option\Extend;
+use Mezcalito\ImgproxyBundle\Option\Height;
+use Mezcalito\ImgproxyBundle\Option\ResizingType;
+use Mezcalito\ImgproxyBundle\Option\Rotate;
+use Mezcalito\ImgproxyBundle\Option\Width;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -73,23 +79,12 @@ class Configuration implements ConfigurationInterface
                                             ->end()
                                         ->end()
                                     ->end()
-                                    ->arrayNode('rotate')
-                                        ->children()
-                                            ->enumNode('angle')
-                                                ->values([0, 90, 180, 270])
-                                            ->end()
-                                        ->end()
-                                    ->end()
-                                    ->arrayNode('height')
-                                        ->children()
-                                            ->integerNode('height')->min(0)->end()
-                                        ->end()
-                                    ->end()
-                                    ->arrayNode('width')
-                                        ->children()
-                                            ->integerNode('width')->min(0)->end()
-                                        ->end()
-                                    ->end()
+                                    ->append(ResizingType::getConfig())
+                                    ->append(Enlarge::getConfig())
+                                    ->append(Extend::getConfig())
+                                    ->append(Rotate::getConfig())
+                                    ->append(Width::getConfig())
+                                    ->append(Height::getConfig())
                                 ->end()
                             ->end()
                         ->end()

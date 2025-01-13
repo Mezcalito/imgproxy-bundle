@@ -13,12 +13,23 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 class Enlarge extends Option
 {
     public function getParts(): array
     {
         return [
-            $this->params['enlarge'] ? 'true' : 'false',
+            $this->params['enlarge'],
         ];
+    }
+
+    public static function getConfig(): NodeDefinition
+    {
+        $root = new NodeBuilder();
+
+        return $root
+            ->booleanNode('enlarge');
     }
 }

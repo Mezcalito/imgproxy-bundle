@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 class Height extends Option
 {
     public function getParts(): array
@@ -20,5 +23,13 @@ class Height extends Option
         return [
             $this->params['height'],
         ];
+    }
+
+    public static function getConfig(): NodeDefinition
+    {
+        $root = new NodeBuilder();
+
+        return $root
+            ->integerNode('height')->min(0);
     }
 }

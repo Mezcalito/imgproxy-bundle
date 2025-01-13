@@ -13,16 +13,23 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+
 class Rotate extends Option
 {
     public function getParts(): array
     {
-        $parts = [];
+        return [
+            $this->params['rotate'],
+        ];
+    }
 
-        if (\array_key_exists('angle', $this->params)) {
-            $parts['angle'] = $this->params['angle'];
-        }
+    public static function getConfig(): NodeDefinition
+    {
+        $root = new NodeBuilder();
 
-        return $parts;
+        return $root
+            ->enumNode('rotate')->values([0, 90, 180, 270]);
     }
 }
