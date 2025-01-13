@@ -2,7 +2,8 @@ parameters:
     level: 5
     paths:
         - src
-    excludePaths:
-        - src/DependencyInjection/Configuration.php
     fileExtensions:
         - php
+    ignoreErrors:
+        - "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:[a-zA-Z]+\\(\\)\\.$#"
+        - "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:[a-zA-Z]+\\(\\)\\.$#"

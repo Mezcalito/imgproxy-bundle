@@ -13,28 +13,28 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
-use Mezcalito\ImgproxyBundle\Option\Enlarge;
+use Mezcalito\ImgproxyBundle\Option\Width;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class EnlargeTest extends TestCase
+class WidthTest extends TestCase
 {
     public function testGetName(): void
     {
-        $this->assertEquals('enlarge', (new Enlarge([]))->getName());
+        $this->assertEquals('width', (new Width([]))->getName());
     }
 
     #[DataProvider('options')]
     public function testResolve(array $params, string $result): void
     {
-        $this->assertEquals($result, (new Enlarge($params))->resolve());
+        $this->assertEquals($result, (new Width($params))->resolve());
     }
 
     public static function options(): iterable
     {
         yield [
-            'params' => ['enlarge' => false],
-            'result' => 'enlarge:false',
+            'params' => ['width' => '42'],
+            'result' => 'width:42',
         ];
     }
 }
