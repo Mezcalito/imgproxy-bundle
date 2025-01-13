@@ -18,13 +18,6 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class Width extends Option
 {
-    public function getParts(): array
-    {
-        return [
-            $this->params['width'],
-        ];
-    }
-
     public static function getConfig(): NodeDefinition
     {
         $root = new NodeBuilder();

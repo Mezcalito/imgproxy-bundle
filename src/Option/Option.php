@@ -20,11 +20,23 @@ abstract class Option implements OptionInterface
     ) {
     }
 
-    abstract public function getParts(): array;
+    public function getParts(): array
+    {
+        return $this->params;
+    }
 
     public function resolve(): string
     {
-        return \implode(':', [$this->getName(), ...$this->getParts()]);
+        $result = $this->getName();
+        foreach ($this->getParts() as $part) {
+            if (\is_bool($part)) {
+                $result .= ':'.($part ? 'true' : 'false');
+            } else {
+                $result .= ':'.$part;
+            }
+        }
+
+        return $result;
     }
 
     public function getName(): string

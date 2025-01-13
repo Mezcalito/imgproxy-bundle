@@ -149,7 +149,7 @@ class ResolverTest extends TestCase
                     'format' => 'webp',
                     'options' => [
                         'resize' => ['width' => 150, 'height' => 75, 'enlarge' => true],
-                        'rotate' => ['angle' => 90],
+                        'rotate' => 90,
                     ],
                 ],
                 'encoded_thumbnail' => [
@@ -157,7 +157,7 @@ class ResolverTest extends TestCase
                     'encode' => true,
                     'options' => [
                         'resize' => ['width' => 150, 'height' => 75, 'enlarge' => true],
-                        'rotate' => ['angle' => 270],
+                        'rotate' => 270,
                     ],
                 ],
             ],

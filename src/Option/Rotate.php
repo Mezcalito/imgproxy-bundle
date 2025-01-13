@@ -18,13 +18,6 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class Rotate extends Option
 {
-    public function getParts(): array
-    {
-        return [
-            $this->params['rotate'],
-        ];
-    }
-
     public static function getConfig(): NodeDefinition
     {
         $root = new NodeBuilder();

@@ -18,13 +18,6 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class Height extends Option
 {
-    public function getParts(): array
-    {
-        return [
-            $this->params['height'],
-        ];
-    }
-
     public static function getConfig(): NodeDefinition
     {
         $root = new NodeBuilder();

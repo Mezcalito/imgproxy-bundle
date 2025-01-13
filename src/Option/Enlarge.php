@@ -18,13 +18,6 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class Enlarge extends Option
 {
-    public function getParts(): array
-    {
-        return [
-            $this->params['enlarge'],
-        ];
-    }
-
     public static function getConfig(): NodeDefinition
     {
         $root = new NodeBuilder();

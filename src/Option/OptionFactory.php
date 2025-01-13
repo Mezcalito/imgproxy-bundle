@@ -15,11 +15,12 @@ namespace Mezcalito\ImgproxyBundle\Option;
 
 final class OptionFactory
 {
-    public static function fromName(string $optionName, array $optionParams): OptionInterface
+    public static function fromName(string $optionName, mixed $optionParams): OptionInterface
     {
         $className = \lcfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $optionName))));
         $fqcn = '\\Mezcalito\\ImgproxyBundle\\Option\\'.$className;
+        $params = \is_array($optionParams) ? $optionParams : [$optionParams];
 
-        return new $fqcn($optionParams);
+        return new $fqcn($params);
     }
 }
