@@ -14,23 +14,16 @@ declare(strict_types=1);
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
 use Mezcalito\ImgproxyBundle\Option\Width;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Mezcalito\ImgproxyBundle\Test\OptionTestCase;
 
-class WidthTest extends TestCase
+class WidthTest extends OptionTestCase
 {
-    public function testGetName(): void
+    public static function getOptionClass(): string
     {
-        $this->assertEquals('width', (new Width([]))->getName());
+        return Width::class;
     }
 
-    #[DataProvider('options')]
-    public function testResolve(array $params, string $result): void
-    {
-        $this->assertEquals($result, (new Width($params))->resolve());
-    }
-
-    public static function options(): iterable
+    public static function getOptionTests(): iterable
     {
         yield [
             'params' => ['width' => '42'],

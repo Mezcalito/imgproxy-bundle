@@ -14,23 +14,16 @@ declare(strict_types=1);
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
 use Mezcalito\ImgproxyBundle\Option\Enlarge;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Mezcalito\ImgproxyBundle\Test\OptionTestCase;
 
-class EnlargeTest extends TestCase
+class EnlargeTest extends OptionTestCase
 {
-    public function testGetName(): void
+    public static function getOptionClass(): string
     {
-        $this->assertEquals('enlarge', (new Enlarge([]))->getName());
+        return Enlarge::class;
     }
 
-    #[DataProvider('options')]
-    public function testResolve(array $params, string $result): void
-    {
-        $this->assertEquals($result, (new Enlarge($params))->resolve());
-    }
-
-    public static function options(): iterable
+    public static function getOptionTests(): iterable
     {
         yield [
             'params' => ['enlarge' => false],
