@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
-use function Symfony\Component\String\u;
-
 abstract class Option implements OptionInterface
 {
     public function __construct(
@@ -34,6 +32,6 @@ abstract class Option implements OptionInterface
         $fqcn = \explode('\\', static::class);
         $className = \array_pop($fqcn);
 
-        return u($className)->lower()->snake()->toString();
+        return \strtolower(\preg_replace('/(?<!^)[A-Z]/', '_$0', $className));
     }
 }
