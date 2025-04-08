@@ -13,21 +13,21 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
-use Mezcalito\ImgproxyBundle\Option\Blur;
+use Mezcalito\ImgproxyBundle\Option\Height;
 use Mezcalito\ImgproxyBundle\Test\OptionTestCase;
 
-class BlurTest extends OptionTestCase
+class HeightTest extends OptionTestCase
 {
     public static function getOptionClass(): string
     {
-        return Blur::class;
+        return Height::class;
     }
 
     public static function getOptionTests(): iterable
     {
         yield [
-            'params' => ['sigma' => 2.5],
-            'result' => 'blur:2.5',
+            'params' => ['height' => '42'],
+            'result' => 'height:42',
         ];
     }
 }

@@ -14,23 +14,16 @@ declare(strict_types=1);
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
 use Mezcalito\ImgproxyBundle\Option\Gravity;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Mezcalito\ImgproxyBundle\Test\OptionTestCase;
 
-class GravityTest extends TestCase
+class GravityTest extends OptionTestCase
 {
-    public function testGetName(): void
+    public static function getOptionClass(): string
     {
-        $this->assertEquals('gravity', (new Gravity(['type' => 'ce', 'x_offset' => 0, 'y_offset' => 0]))->getName());
+        return Gravity::class;
     }
 
-    #[DataProvider('options')]
-    public function testResolve(array $params, string $result): void
-    {
-        $this->assertEquals($result, (new Gravity($params))->resolve());
-    }
-
-    public static function options(): iterable
+    public static function getOptionTests(): iterable
     {
         yield [
             'params' => ['type' => 'ce', 'x_offset' => 0, 'y_offset' => 0],

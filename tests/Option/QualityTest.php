@@ -14,28 +14,19 @@ declare(strict_types=1);
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
 use Mezcalito\ImgproxyBundle\Option\Quality;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Mezcalito\ImgproxyBundle\Test\OptionTestCase;
 
-class QualityTest extends TestCase
+class QualityTest extends OptionTestCase
 {
-    public function testGetName(): void
+    public static function getOptionClass(): string
     {
-        $this->assertEquals('quality', (new Quality(['quality' => 80]))->getName());
+        return Quality::class;
     }
 
-    #[DataProvider('options')]
-    public function testResolve(array $params, string $result): void
-    {
-        $this->assertEquals($result, (new Quality($params))->resolve());
-    }
-
-    public static function options(): iterable
+    public static function getOptionTests(): iterable
     {
         yield [
-            'params' => [
-                'quality' => 80,
-            ],
+            'params' => ['quality' => 80],
             'result' => 'quality:80',
         ];
     }

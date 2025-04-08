@@ -13,21 +13,21 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Tests\Option;
 
-use Mezcalito\ImgproxyBundle\Option\Blur;
+use Mezcalito\ImgproxyBundle\Option\ResizingType;
 use Mezcalito\ImgproxyBundle\Test\OptionTestCase;
 
-class BlurTest extends OptionTestCase
+class ResizingTypeTest extends OptionTestCase
 {
     public static function getOptionClass(): string
     {
-        return Blur::class;
+        return ResizingType::class;
     }
 
     public static function getOptionTests(): iterable
     {
         yield [
-            'params' => ['sigma' => 2.5],
-            'result' => 'blur:2.5',
+            'params' => ['resizing_type' => 'fit'],
+            'result' => 'resizing_type:fit',
         ];
     }
 }
