@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace Mezcalito\ImgproxyBundle\Option;
 
-use function Symfony\Component\String\u;
-
 final class OptionFactory
 {
     public static function fromName(string $optionName, array $optionParams): OptionInterface
     {
-        $fqcn = '\\Mezcalito\\ImgproxyBundle\\Option\\'.u($optionName)->camel()->title()->toString();
+        $className = \lcfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $optionName))));
+        $fqcn = '\\Mezcalito\\ImgproxyBundle\\Option\\'.$className;
 
         return new $fqcn($optionParams);
     }
