@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.5
           coverage: none
 
       - name: Install dependencies
@@ -32,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.5
           coverage: none
 
       - name: Install dependencies
@@ -54,30 +54,30 @@ jobs:
       matrix:
         include:
           # Latest Symfony version support
-          - os: ubuntu-latest
-            php_version: "8.4"
-            symfony_version: "7.0"
-            stability: "stable"
+          -   os: ubuntu-latest
+              php_version: "8.4"
+              symfony_version: "8.0"
+              stability: "stable"
           # LTS Symfony version support
-          - os: ubuntu-latest
-            php_version: "8.4"
-            symfony_version: "5.4"
-            stability: "stable"
-          - os: ubuntu-latest
-            php_version: "8.4"
-            symfony_version: "6.4"
-            stability: "stable"
+          -   os: ubuntu-latest
+              php_version: "8.3"
+              symfony_version: "6.4"
+              stability: "stable"
+          -   os: ubuntu-latest
+              php_version: "8.4"
+              symfony_version: "7.4"
+              stability: "stable"
           # Lowest deps support
-          - os: ubuntu-latest
-            php_version: "8.1"
-            symfony_version: "5.4"
-            composer_args: "--prefer-lowest"
-            stability: "stable"
+          -   os: ubuntu-latest
+              php_version: "8.3"
+              symfony_version: "6.4"
+              composer_args: "--prefer-lowest"
+              stability: "stable"
           # Upcoming Symfony versions
-          - os: ubuntu-latest
-            php_version: "8.4"
-            symfony_version: "7.2.x-dev"
-            stability: "dev"
+          -   os: ubuntu-latest
+              php_version: "8.4"
+              symfony_version: "8.1.x-dev"
+              stability: "dev"
 
     runs-on: ${{ matrix.os }}
 
