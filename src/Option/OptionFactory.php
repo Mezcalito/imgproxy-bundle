@@ -17,7 +17,7 @@ final class OptionFactory
 {
     public static function fromName(string $optionName, array $optionParams): OptionInterface
     {
-        $className = \lcfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $optionName))));
+        $className = \ucfirst(\str_replace(' ', '', \ucwords(\str_replace('_', ' ', $optionName))));
         $fqcn = '\\Mezcalito\\ImgproxyBundle\\Option\\'.$className;
 
         return new $fqcn($optionParams);
