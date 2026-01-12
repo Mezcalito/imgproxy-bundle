@@ -52,7 +52,8 @@ class Resolver
         }
 
         $options = [];
-        foreach ($preset['options'] as $optionName => $optionParams) {
+        $presetOptions = $preset['options'] ?? [];
+        foreach ($presetOptions as $optionName => $optionParams) {
             $option = OptionFactory::fromName($optionName, $optionParams);
             $options[] = $option->resolve();
         }
@@ -65,7 +66,7 @@ class Resolver
             $source = Encoder::encode($src, true);
         }
 
-        $path = '/'.$options.'/'.$source.$separator.$preset['format'];
+        $path = '/'.($options ? $options.'/' : '').$source.$separator.$preset['format'];
         $signature = $this->signer->generateSignature($path);
 
         return $this->host.'/'.$signature.$path;
