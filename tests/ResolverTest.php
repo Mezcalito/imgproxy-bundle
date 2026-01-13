@@ -76,6 +76,14 @@ class ResolverTest extends TestCase
         $this->resolver->getBrowserPath('https://fakeimg.pl/350x200/?text=Mezcalito', 'test');
     }
 
+    #[DataProvider('localUrlFalsyOptions')]
+    public function testCreateLocalUrlWithFalsyOption(string $src, string $filter, string $result): void
+    {
+        $this->addingContainer();
+
+        $this->assertEquals($result, $this->resolver->getBrowserPath($src, $filter));
+    }
+
     public static function plainUrl(): iterable
     {
         yield [
@@ -122,6 +130,25 @@ class ResolverTest extends TestCase
         ];
     }
 
+    public static function localUrlFalsyOptions(): iterable
+    {
+        yield [
+            'src' => 'image.png',
+            'filter' => 'no_options',
+            'result' => 'http://localhost:8080/X_PYvMBPKiTcVblydcE_wagAk_jwFeHOM3JoHyiZ5Gk/plain/localhostimage.png@webp',
+        ];
+        yield [
+            'src' => 'image.png',
+            'filter' => 'empty_options',
+            'result' => 'http://localhost:8080/X_PYvMBPKiTcVblydcE_wagAk_jwFeHOM3JoHyiZ5Gk/plain/localhostimage.png@webp',
+        ];
+        yield [
+            'src' => 'image.png',
+            'filter' => 'null_options',
+            'result' => 'http://localhost:8080/X_PYvMBPKiTcVblydcE_wagAk_jwFeHOM3JoHyiZ5Gk/plain/localhostimage.png@webp',
+        ];
+    }
+
     private function addingContainer(bool $withMediaUrl = false, bool $withRequest = true): void
     {
         $container = $this->createContainer($withMediaUrl);
@@ -159,6 +186,17 @@ class ResolverTest extends TestCase
                         'resize' => ['width' => 150, 'height' => 75, 'enlarge' => true],
                         'rotate' => ['angle' => 270],
                     ],
+                ],
+                'no_options' => [
+                    'format' => 'webp',
+                ],
+                'empty_options' => [
+                    'format' => 'webp',
+                    'options' => [],
+                ],
+                'null_options' => [
+                    'format' => 'webp',
+                    'options' => null,
                 ],
             ],
         ];
