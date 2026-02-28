@@ -43,6 +43,6 @@ class ImgproxyExtension extends Extension
 
     private function createPresets(array $defaultPreset, array $presets): array
     {
-        return \array_map(fn (array $presets) => \array_merge($defaultPreset, \array_filter($presets)), $presets);
+        return \array_map(static fn (array $presets) => \array_merge($defaultPreset, \array_filter($presets)), $presets);
     }
 }
